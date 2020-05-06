@@ -1,0 +1,69 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "jsx": "react",
+        "lib": [
+            "es2015",
+            "dom",
+            "es2015.promise"
+        ],
+        "allowSyntheticDefaultImports": true,
+        "resolveJsonModule": true,
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "sourceMap": false,
+        "inlineSourceMap": true,
+        "inlineSources": true,
+        "typeRoots": [
+            "./node_modules/@types",
+            "./types/",
+        ],
+        "baseUrl": ".",
+        "paths": {
+            "@Types": [
+                "./src/types/index.tsx"
+            ],
+            "@Lang": [
+                "./src/assets/lang.tsx"
+            ],
+            "@api/*": [
+                "./src/api/*"
+            ],
+            "@components/*": [
+                "./src/components/*"
+            ],
+            "@common/*": [
+                "./src/components/common/*"
+            ],
+            "@Header": [
+                "./src/components/Header.tsx"
+            ],
+            "@PrivateRoute": [
+                "./src/components/PrivateRoute.tsx"
+            ],
+            "@context/*": [
+                "./src/context/*"
+            ],
+            "@reducers/*": [
+                "./src/reducers/*"
+            ],
+            "@Routes": [
+                "./src/routes/Routes.tsx"
+            ],
+            "@assets/*": [
+                "./src/assets/*"
+            ],
+            "@Utils": [
+                "./src/utils.tsx"
+            ],
+            "@App": [
+                "./src/components/App.tsx"
+            ],
+        },
+    },
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}
