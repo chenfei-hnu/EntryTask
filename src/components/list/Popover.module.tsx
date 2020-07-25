@@ -10,7 +10,7 @@ import './Popover.module.less';
 
 type PopoverProps = {
     visible: boolean;
-    laterPosition: Postition
+    laterPosition: Postition;
 };
 export default function Popover({ visible, laterPosition }: PopoverProps) {
     //未点击搜索前，选择的临时时间范围
@@ -24,54 +24,96 @@ export default function Popover({ visible, laterPosition }: PopoverProps) {
         dispatch({ type: 'SET_TEMPBEFORE', tempBefore: date.getTime() });
     };
     return visible ? (
-        <div style={{ position: "absolute", top: "0px", left: "0px", width: '100%' }}>
-            <div className="am-popover-arrow" style={{ left: `${(laterPosition.x) || 134}px`, top: `${(laterPosition.y + 22) || 144}px` }}></div>
-            <div className="am-popover fortest" style={{ left: "5px", top: `${(laterPosition.y + 25) || 147}px` }}>
+        <div
+            style={{
+                position: 'absolute',
+                top: '0px',
+                left: '0px',
+                width: '100%',
+            }}
+        >
+            <div
+                className="am-popover-arrow"
+                style={{
+                    left: `${laterPosition.x || 134}px`,
+                    top: `${laterPosition.y + 22 || 144}px`,
+                }}
+            ></div>
+            <div
+                className="am-popover fortest"
+                style={{ left: '5px', top: `${laterPosition.y + 25 || 147}px` }}
+            >
                 <div className="am-popover-content">
-                    <div className="am-popover-inner"><div className="am-popover-inner-wrapper">
-                        <div className="am-popover-item" >
-                            <div className="am-popover-item-container">
-                                <span className="am-popover-item-content">
-                                    <div className={`popover-timeRangeContainer`}>
-                                        <div className={`popover-itemIcon`}>
-                                            <i className={`icon-date-from`}></i>
-                                        </div>
-                                        <div className={`popover-timePickerContainer`}>
-                                            <DatePicker
-                                                mode="date"
-                                                extra=''
-                                                format='YYYY-MM-DD'
-                                                value={new Date(tempAfter)}
-                                                disabled={true}
+                    <div className="am-popover-inner">
+                        <div className="am-popover-inner-wrapper">
+                            <div className="am-popover-item">
+                                <div className="am-popover-item-container">
+                                    <span className="am-popover-item-content">
+                                        <div
+                                            className={`popover-timeRangeContainer`}
+                                        >
+                                            <div className={`popover-itemIcon`}>
+                                                <i
+                                                    className={`icon-date-from`}
+                                                ></i>
+                                            </div>
+                                            <div
+                                                className={`popover-timePickerContainer`}
                                             >
-                                                <List.Item arrow="horizontal" extra="">{dateFormat('dd/mm/YY', new Date(tempAfter))}</List.Item>
-                                            </DatePicker>
-                                        </div>
-                                        <div className={`popover-splitChar`}>
-                                            -
-                                        </div>
-                                        <div className={`popover-itemIcon`}>
-                                            <i className={`icon-date-to`}></i>
-                                        </div>
-                                        <div className={`activeTime popover-timePickerContainer`}>
-                                            <DatePicker
-                                                mode="date"
-                                                extra=''
-                                                format='YYYY-MM-DD'
-                                                value={new Date(tempBefore)}
-                                                onChange={changeTempBefore}
+                                                <DatePicker
+                                                    mode="date"
+                                                    extra=""
+                                                    format="YYYY-MM-DD"
+                                                    value={new Date(tempAfter)}
+                                                    disabled={true}
+                                                >
+                                                    <List.Item
+                                                        arrow="horizontal"
+                                                        extra=""
+                                                    >
+                                                        {dateFormat(
+                                                            'dd/mm/YY',
+                                                            new Date(tempAfter)
+                                                        )}
+                                                    </List.Item>
+                                                </DatePicker>
+                                            </div>
+                                            <div
+                                                className={`popover-splitChar`}
                                             >
-                                                <List.Item arrow="horizontal">{dateFormat('dd/mm/YY', new Date(tempBefore))}</List.Item>
-                                            </DatePicker>
+                                                -
+                                            </div>
+                                            <div className={`popover-itemIcon`}>
+                                                <i
+                                                    className={`icon-date-to`}
+                                                ></i>
+                                            </div>
+                                            <div
+                                                className={`activeTime popover-timePickerContainer`}
+                                            >
+                                                <DatePicker
+                                                    mode="date"
+                                                    extra=""
+                                                    format="YYYY-MM-DD"
+                                                    value={new Date(tempBefore)}
+                                                    onChange={changeTempBefore}
+                                                >
+                                                    <List.Item arrow="horizontal">
+                                                        {dateFormat(
+                                                            'dd/mm/YY',
+                                                            new Date(tempBefore)
+                                                        )}
+                                                    </List.Item>
+                                                </DatePicker>
+                                            </div>
                                         </div>
-                                    </div>
-                                </span>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    </div>
                 </div>
             </div>
-        </div >
+        </div>
     ) : null;
 }

@@ -1,35 +1,36 @@
 ### 设计文档
 
-##### 1.store设计
-利用useContext，useReducer及action定义，在<App/>标签外出包裹响应的Provider实现状态共享
+##### 1.store 设计
 
-store模块
+利用 useContext，useReducer 及 action 定义，在<App/>标签外出包裹响应的 Provider 实现状态共享
+
+store 模块
 
 auth 用来管理登陆态等用户信息
 
 eventList 用来管理活动列表页相关的搜索，分页等请求参数
 
-eventDetail 用来管理活动详情页的Event基础信息，评论，关注和参与用户等信息
+eventDetail 用来管理活动详情页的 Event 基础信息，评论，关注和参与用户等信息
 
-1）auth模块
+1）auth 模块
 
 事件
 
 LOGIN 登陆成功后设置状态为认证成功
 
-LOAD_USER 根据登陆响应token等参数请求用户详细信息并保持
+LOAD_USER 根据登陆响应 token 等参数请求用户详细信息并保持
 
 SWITCH_LANG_TYPE 切换系统当前语言
 
 变量
 
-isAuthenticated: boolean; 是否登陆过，已经登陆过需要验证token，没有则直接显示登陆页面即可
+isAuthenticated: boolean; 是否登陆过，已经登陆过需要验证 token，没有则直接显示登陆页面即可
 
 user: User | null; 保存当前登陆的用户信息
 
 langType: LangType; 当前系统语言
 
-2）eventList模块
+2）eventList 模块
 
 事件
 
@@ -45,17 +46,17 @@ FETCH_EVENTS_ERROR 请求活动列表失败
 
 RECOVER_DEFAULT 重置请求参数
 
-SET_PAGE  设置活动列表请求的分页参数
+SET_PAGE 设置活动列表请求的分页参数
 
-SET_SHOWSEARCH  设置列表页面搜索描述显示情况
+SET_SHOWSEARCH 设置列表页面搜索描述显示情况
 
-SET_BEFORE 设置搜索时间before
+SET_BEFORE 设置搜索时间 before
 
-SET_TEMPBEFORE  设置用户临时选择的搜索时间before
+SET_TEMPBEFORE 设置用户临时选择的搜索时间 before
 
-SET_AFTER 设置搜索时间after
+SET_AFTER 设置搜索时间 after
 
-SET_TEMPAFTER 设置用户临时选择的搜索时间after
+SET_TEMPAFTER 设置用户临时选择的搜索时间 after
 
 SET_CHANNELS 设置搜索频道
 
@@ -63,14 +64,13 @@ SET_SEARCHDESC 设置列表页面显示的搜索条件描述
 
 SET_SEARCHSTATUS 设置搜索组件显示情况
 
-
 变量
 
 selectedTab: ITab; 设置页面当前选择的激活项
 
 currentIndex: number;滚动条对应的当前列表项序号
 
-events: Event[]; 请求成功的活动列表  
+events: Event[]; 请求成功的活动列表
 
 loading: boolean; 列表是否正在加载
 
@@ -78,15 +78,15 @@ error: string | null; 列表请求失败的错误信息
 
 page: number;列表请求的分页参数
 
-after: number;列表请求的after参数
+after: number;列表请求的 after 参数
 
-before: number;列表请求的before参数
+before: number;列表请求的 before 参数
 
-channels: string;列表请求的channels参数
+channels: string;列表请求的 channels 参数
 
-tempBefore: number; 搜索组件的临时before参数
+tempBefore: number; 搜索组件的临时 before 参数
 
-tempAfter: number; 搜索组件的临时after参数
+tempAfter: number; 搜索组件的临时 after 参数
 
 searchDesc: string;列表页面的搜索描述
 
@@ -94,7 +94,7 @@ showSearch: boolean;是否显示列表页面的搜索描述
 
 searchStatus: boolean;是否显示搜索组件
 
-2）eventDetail模块
+2）eventDetail 模块
 
 事件
 
@@ -158,19 +158,19 @@ commentsLoading: boolean; 评论请求加载状态
 
 commentsError: string | null; 评论请求失败原因
 
-#####  2.滚动设计
+##### 2.滚动设计
 
 相关组件
 
 EventList 用来请求列表数据，计算分页参数，显示加载状态及空数据状态，显示搜索条件信息
 
-EventPreview 用来显示单个Event的内容
+EventPreview 用来显示单个 Event 的内容
 
 总体思路
 
 ```
 单个列表项高度固定，页面监听滚动事件，固定每个分页请求20条数据，对请求返回的数据遍历设置index属性，
-用来标记处于当前列表的序号，列表项设置为绝对定位，位置通过序号乘以固定高度确定； 
+用来标记处于当前列表的序号，列表项设置为绝对定位，位置通过序号乘以固定高度确定；
 当监听滚动到第10条数据时，自动加载下一个分页的数据，再等到滚动到下一个分页的第10项即总列表第30项时，
 再加载后面分页的数据，依次类推，达到延迟加载后续表单项无限列表的效果；
 滚动过程中，监听标记当前滚动位置对应的当前列表项序号，EventPreview根据当前列表项序号决定显示清空，
@@ -179,10 +179,11 @@ EventPreview 用来显示单个Event的内容
 因为列表项时绝对定位，使得列表容易高度始终不影响滚动条高度的计算。
 ```
 
-1. 使用useEventListener及防抖函数监听列表滚动时间
-useEventListener('scroll', throttle(scrollListen, 200));
+1. 使用 useEventListener 及防抖函数监听列表滚动时间
+   useEventListener('scroll', debounced(scrollListen, 200));
 
 2. 计算列表项位置相关的常量
+
 ```
 topOfEventList 首页及设置页面除Event列表外顶部的其他元素总高度
 eventItemHeight=236 根据设计图编码后计算出单个Event显示区域的总高度为236px，高度保持固定不变
@@ -195,17 +196,17 @@ limit=20 每次请求的数据固定为20条　
 
 viewList 所有已经请求到的event数据列表
 
-shouldAddIndex 
+shouldAddIndex
 用来标记下一个分页数据的请求序号，滚动到此序号便加载缓存数据或请求下一个分页的数据，请求完后进行递增
 
 totalEvent 当前列表的最大数量，达到最大数量后不再请求后面分页的数据
 ```
 
-4. 定义handleNextView函数
+4. 定义 handleNextView 函数
 
 进行数据请求，并对返回的数据进行遍历设置序号，调整请求相关的变量
 
-5. EventPreview根据序号决定当前列表项显示
+5. EventPreview 根据序号决定当前列表项显示
 
 ```
 event.index * eventItemHeight + topOfEventList
@@ -225,17 +226,18 @@ event.index > (currentIndex + 10) || event.index < (currentIndex - 10）
 
 ##### 优化项
 
-1. 图片资源都使用base64形式内嵌至css
+1. 图片资源都使用 base64 形式内嵌至 css
 
 2. 对无限列表监听滚动事件使用防抖函数进行限制，避免频繁调用，使用请求预加载在滚动到末尾之前就将数据请求好
 
-3. 使用PrivateRoute避免用户手动输入URL进行异常资源访问
+3. 使用 PrivateRoute 避免用户手动输入 URL 进行异常资源访问
 
-4. 使用img loading = { 'lazy'}
+4. 使用 img loading = { 'lazy'}
 
-5. 使用字体图片加载svg的图标资源
+5. 使用字体图片加载 svg 的图标资源
 
 6. webpack
+
 ```
 在webpack，tsconfig及jest的配置文件中，配置常用引用的Alias别名简化代码并提高编译速度
 
@@ -246,23 +248,74 @@ event.index > (currentIndex + 10) || event.index < (currentIndex - 10）
 使用MiniCssExtractPlugin提取单独打包css
 
 使用webpack - dev - server提供开发服务器并在代码更新后进行重载
+
+使用Suspense及Lazy对路由组件进行代码分隔及按需加载，webpack使用BundleAnalyzerPlugin进行chunk分析
+
 ```
+
+##### 代码分隔前 chunk 及首页加载
+
+```
+"main": [
+   "css/style.0.css",
+   "0.index_bundle.js"
+],
+   "runtime": "index_bundle.js",
+   "vendor": [
+   "css/style.2.css",
+   "2.index_bundle.js"
+]
+```
+
+![image](https://user-images.githubusercontent.com/8412448/81179430-3a2fa700-8fdc-11ea-9cf6-e183418a9fe7.png)
+
+##### 代码分隔后 chunk 及首页加载
+
+```
+"default~list~setting": [
+   "css/style.0.css",
+   "0.index_bundle.js"
+],
+   "vendor": [
+   "css/style.1.css",
+   "1.index_bundle.js"
+],
+   "detail": [
+   "css/style.2.css",
+   "2.index_bundle.js"
+],
+   "list": [
+   "css/style.3.css",
+   "3.index_bundle.js"
+],
+   "main": [
+   "css/style.4.css",
+   "4.index_bundle.js"
+],
+   "runtime": "index_bundle.js",
+   "setting": [
+   "css/style.6.css",
+   "6.index_bundle.js"
+]
+```
+
+![image](https://user-images.githubusercontent.com/8412448/81179008-a1992700-8fdb-11ea-9a51-ec753f7c01e1.png)
 
 ##### 测试覆盖点
 
 1. 通用纯函数测试由不同参数出现的各类选择分支返回情况
 
-2. 组件测试根据初始化store及基础父组件参数渲染情况是否正常，测试根据不同参数值是否显示不同内容，组件中各类点击事件处理函数是否正常触发并执行完成
+2. 组件测试根据初始化 store 及基础父组件参数渲染情况是否正常，测试根据不同参数值是否显示不同内容，组件中各类点击事件处理函数是否正常触发并执行完成
 
 ##### 编码过程中的问题及解决措施
 
-1. 之前都是直接用create-react-app脚手架开始进行编码，没有自行配置，这次通过看很多github项目及通过搜索完成了，基础的webpack+tslint+tsconfig+babel+jest等联合配置
+1. 之前都是直接用 create-react-app 脚手架开始进行编码，没有自行配置，这次通过看很多 github 项目及通过搜索完成了，基础的 webpack+tslint+tsconfig+babel+jest 等联合配置
 
-2. 了解了前端react hook相关的一些测试第三方库，并对项目进行配置，对工具函数的e2e测试及组件的简单单元测试进行测试代码编写
+2. 了解了前端 react hook 相关的一些测试第三方库，并对项目进行配置，对工具函数的 e2e 测试及组件的简单单元测试进行测试代码编写
 
-3. 对react hook的实际编码不是很熟悉，通过查看相关api及github例子逐渐完成编码，并在添加注释的过程中对代码进行简单整理
+3. 对 react hook 的实际编码不是很熟悉，通过查看相关 api 及 github 例子逐渐完成编码，并在添加注释的过程中对代码进行简单整理
 
-4. 服务端代码部分有误，与提供的接口文档不对应的地方自己去查找对应的代码并进行修改，还了解了SQLite客户端展示工具的使用，直观的查看数据库数据
+4. 服务端代码部分有误，与提供的接口文档不对应的地方自己去查找对应的代码并进行修改，还了解了 SQLite 客户端展示工具的使用，直观的查看数据库数据
 
 ```
 对任务给出的服务端路由代码修改
@@ -274,13 +327,13 @@ fastify.get('/user/:uid', userController.getUserInfo)
 fastify.get('/user/:uid/events', userController.getUserEvents)
 ```
 
-5. 没有了解过react中国际化相关的库及使用，自行参照之前项目的相关编码进行国际化语言切换的实现
+5. 没有了解过 react 中国际化相关的库及使用，自行参照之前项目的相关编码进行国际化语言切换的实现
 
 ##### 可以改进的地方
 
-1. 很多react hook的实际项目编码规范还是很差，后面了解负责的项目后多熟悉之前老员工的编码规范
+1. 很多 react hook 的实际项目编码规范还是很差，后面了解负责的项目后多熟悉之前老员工的编码规范
 
-2. 测试用例的api及测点离满足项目实际需求还有很大差距，也需要尽快熟悉
+2. 测试用例的 api 及测点离满足项目实际需求还有很大差距，也需要尽快熟悉
 
 3. 项目的目录结果还不是很合理
 
@@ -290,4 +343,4 @@ fastify.get('/user/:uid/events', userController.getUserEvents)
 
 ##### 结尾
 
-通过此次任务编码，熟悉了项目的从0配置，公司所使用的相关框架，以及前端测试等方面的知识，目前还是有很多不足和不熟悉的地方，希望之后多了解相关的业务代码及文档尽快融入工作。
+通过此次任务编码，熟悉了项目的从 0 配置，公司所使用的相关框架，以及前端测试等方面的知识，目前还是有很多不足和不熟悉的地方，希望之后多了解相关的业务代码及文档尽快融入工作。
