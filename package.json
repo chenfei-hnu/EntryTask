@@ -12,7 +12,7 @@
     },
     "dependencies": {
         "antd-mobile": "^2.3.0",
-        "axios": "^0.19.2",
+        "axios": "^0.21.1",
         "deep-clone": "^3.0.3",
         "enzyme": "3.11.0",
         "jest-enzyme": "7.1.2",
